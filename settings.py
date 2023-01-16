@@ -132,18 +132,18 @@ class Settings:
             'excel_path': 'No excel specified',
             'output_path': 'No path specified',
             'config_path': "config",
-            'DI_DISABLE': "true",
-            'DO_DISABLE': "true",
-            'VALVE_DISABLE': "true",
-            'MOTOR_DISABLE': "true",
-            'AI_DISABLE': "true",
-            'AO_DISABLE': "true",
-            'PID_DISABLE': "true",
-            'SUM_DISABLE': "true",
-            'ALARM_DISABLE': "true",
-            'ASI_DISABLE': "true",
-            'UNITS_DISABLE': "true",
-            'Au2_DISABLE': "true"
+            'DI_ENABLE': "false",
+            'DO_ENABLE': "false",
+            'VALVE_ENABLE': "false",
+            'MOTOR_ENABLE': "false",
+            'AI_ENABLE': "false",
+            'AO_ENABLE': "false",
+            'PID_ENABLE': "false",
+            'SUM_ENABLE': "false",
+            'ALARM_ENABLE': "false",
+            'ASI_ENABLE': "false",
+            'UNITS_ENABLE': "false",
+            'Au2_ENABLE': "false"
         }
 
         return user_settings

@@ -158,7 +158,7 @@ class PID:
             #self._tia_code()
             #self._intouch()
             #self._sql()
-            if not self.user_settings['Au2_DISABLE']:
+            if self.user_settings['Au2_ENABLE']:
                 self._Au2Mate_DB()
                 self._Au2Mate_Code()
                 self._Au2Mate_Platform()

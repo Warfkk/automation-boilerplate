@@ -95,7 +95,7 @@ class Au2ParInstance:
 
     def generate(self):
         if self.ol:
-            if not self.user_settings['Au2_DISABLE']:
+            if self.user_settings['Au2_ENABLE']:
                 self.Parameters()
                 self.ParametersInput()
                 self.Tags()

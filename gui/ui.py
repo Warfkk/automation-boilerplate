@@ -1,144 +1,178 @@
-import tkinter as tk
-from tkinter import filedialog
+import tkinter
+import tkinter.messagebox
+import tkinter.filedialog as filedialog
+import customtkinter
 import os
 import os.path
 from settings import Settings
 from gen_main import GenMain
 
+customtkinter.set_appearance_mode("Dark")  # Modes: "System" (standard), "Dark", "Light"
+customtkinter.set_default_color_theme("dark-blue")  # Themes: "blue" (standard), "green", "dark-blue"
 
-class GenUI(tk.Frame):
-    def __init__(self, master=None):
-        super().__init__(master)
-        self.master = master
-        self.pack()
 
-        # Get Current User Data    
+class GenUI(customtkinter.CTk):
+    def __init__(self):
+        super().__init__()
+
         self.s = Settings()
-        self.user_settings = self.get_user_settings()
 
         # Constants
-        self.height = 275
-        self.width = 750
-        self.frameColor = "#2b2b2b"
-        self.buttonWidth = 0.23
-        self.buttonHeight = 0.09
-        self.button_bg = "#2b2b2b"
-        self.button_fg = "#FFFFFF"  # text color
-        self.fontSize = 10
-        self.buttonYSpacing = 0.18
-        self.checkbuttonYSpacing = 0.1
+        self.height = 530
+        self.width = 900
 
-        # Call app
+        self.resizable(False,False)
+        
+        # Get Current User Data
+        self.user_settings = self.get_user_settings()
+
         self.create_window()
         self.create_window_contents()
-        self.create_dropdown()
+        #self.create_dropdown()
 
         # "Run Script" button changes state from this function
         self.check_path_validity()
 
     def create_window(self):
-        """Create window"""
-        # Title and program-icon
-        self.master.title('automation-boilerplate')
-        #  self.master.iconbitmap('icon.ico')
-        icon_path = os.path.join('gui', 'icon.png')
-        self.master.call('wm', 'iconphoto', self.master._w,
-                         tk.PhotoImage(file=icon_path))
-
-        self.canvas = tk.Canvas(self.master, height=self.height,
-                                width=self.width)
-        self.canvas.pack()
-        self.frame = tk.Frame(self.master, bg=self.frameColor)
-        self.frame.place(relwidth=1, relheight=1)
+        # configure window
+        self.title("automation-boilerplate")
+        self.geometry(f"{self.width}x{self.height}")
 
     def create_dropdown(self):
         """Create drop-down menu"""
-        self.menu = tk.Menu(self.master)
+        self.menu = customtkinter.Menu(self.master)
         self.master.config(menu=self.menu)
 
         # file submenu
-        self.subMenu = tk.Menu(self.menu, tearoff=0)
+        self.subMenu = customtkinter.Menu(self.menu, tearoff=0)
         self.menu.add_cascade(label="File", menu=self.subMenu)
         self.subMenu.add_command(label="Exit", command=self.master.quit)
 
         # view submenu
-        self.viewSubMenu = tk.Menu(self.menu, tearoff=0)
+        self.viewSubMenu = customtkinter.Menu(self.menu, tearoff=0)
         self.menu.add_cascade(label="View", menu=self.viewSubMenu)
         self.viewSubMenu.add_command(label="Config path",
                                      command=self.open_config_path)
 
         # about submenu
-        self.aboutSubMenu = tk.Menu(self.menu, tearoff=0)
+        self.aboutSubMenu = customtkinter.Menu(self.menu, tearoff=0)
         self.menu.add_cascade(label="About", menu=self.aboutSubMenu)
         self.aboutSubMenu.add_command(label="Version",
                                       command=self.create_about_window)
 
     def create_window_contents(self):
         """Create window contents"""
-        # Excel button
-        y = 0.1
-        self.excelButton = tk.Button(self.master, text="Select Excel...",
-                                     bg=self.button_bg, fg=self.button_fg,
-                                     command=self.browse_excel)
 
-        self.excelButton.place(relx=0.03, rely=y,
-                               relheight=self.buttonHeight,
-                               relwidth=self.buttonWidth)
+        # create filesheader
+        self.filesheader = customtkinter.CTkFrame(self, corner_radius=0)
+        self.filesheader.grid(row=1, column=0, padx=(20, 0), pady=(20, 0), sticky="W")
+
+        self.filesheaderlabel = customtkinter.CTkLabel(self.filesheader, text="Välj filer och mappar", font=customtkinter.CTkFont(size=20, weight="bold"))
+        self.filesheaderlabel.grid(row=1, column=0, padx=10, pady=10, sticky='W')
+
+        # create files
+        self.files = customtkinter.CTkFrame(self, corner_radius=0)
+        self.files.grid(row=2, column=0, padx=(20, 0), pady=(0, 0), sticky="W")      
+
+        # Excel button
+        self.excelButton = customtkinter.CTkButton(self.files, command=self.browse_excel, text="Välj  TD")
+        self.excelButton.grid(row=1, column=0, padx=20, pady=10, sticky='W')
 
         # Excel path label
-        self.excelLabel = tk.Label(self.frame, bg=self.button_bg,
-                                   fg=self.button_fg,
-                                   text=(self.user_settings['excel_path']))
+        self.excelLabel = customtkinter.CTkLabel(self.files, text=(self.user_settings['excel_path']))
+        self.excelLabel.grid(row=1, column=1, padx=20, pady=10, sticky='W')
 
-        self.excelLabel.place(relx=0.27, rely=y, relheight=self.buttonHeight)
-
-        # Output path button
-        self.outpathButton = tk.Button(self.master, text="Output path...",
-                                       bg=self.button_bg, fg=self.button_fg,
-                                       command=self.output_path)
-        y += self.buttonYSpacing
-        self.outpathButton.place(relx=0.03, rely=y,
-                                 relheight=self.buttonHeight,
-                                 relwidth=self.buttonWidth)
+        # Output button
+        self.outpathButton = customtkinter.CTkButton(self.files, command=self.output_path, text="Välj utmatnings mapp")
+        self.outpathButton.grid(row=2, column=0, padx=20, pady=10, sticky='W')
 
         # Output path label
-        self.outpathLabel = tk.Label(self.frame, bg=self.button_bg,
-                                     fg=self.button_fg,
-                                     text=(self.user_settings['output_path']))
+        self.outpathLabel = customtkinter.CTkLabel(self.files, text=(self.user_settings['output_path']))
+        self.outpathLabel.grid(row=2, column=1, padx=20, pady=10, sticky='W')
 
-        self.outpathLabel.place(relx=0.27, rely=y,
-                                relheight=self.buttonHeight)
-
-        y += self.buttonYSpacing
         # config path button
         if self.s.SHOW_CONFIG_ROW:
-            self.cfgpathButton = tk.Button(self.master, text="Config path...",
-                                           bg=self.button_bg, fg=self.button_fg,
-                                           command=self.config_path)
-
-            self.cfgpathButton.place(relx=0.03, rely=y,
-                                     relheight=self.buttonHeight,
-                                     relwidth=self.buttonWidth)
+            self.cfgpathButton = customtkinter.CTkLabel(self.files, text="Config path...", command=self.config_path)
+            self.cfgpathButton.grid(row=3, column=0, padx=20, pady=10, sticky="W")
 
             # config path label
-            self.cfgpathLabel = tk.Label(self.frame, bg=self.button_bg,
-                                         fg=self.button_fg,
-                                         text=(self.user_settings['config_path']))
+            self.cfgpathLabel = customtkinter.CTkLabel(self.files, text=(self.user_settings['config_path']))
 
-            self.cfgpathLabel.place(relx=0.27, rely=y,
-                                    relheight=self.buttonHeight)
+        # create header configs
+        self.headerconfigs = customtkinter.CTkFrame(self, corner_radius=0)
+        self.headerconfigs.grid(row=3, column=0, padx=(20, 0), pady=(20, 0), sticky="W")
 
-        y += self.buttonYSpacing
-        y += self.buttonYSpacing
+        self.configsheaderlabel = customtkinter.CTkLabel(self.headerconfigs, text="Välj vad som ska genereras", font=customtkinter.CTkFont(size=20, weight="bold"), anchor=customtkinter.W)
+        self.configsheaderlabel.grid(row=1, column=0, padx=10, pady=10)
+
+        # create configs
+        self.configs = customtkinter.CTkFrame(self, corner_radius=0)
+        self.configs.grid(row=4, column=0, padx=(20, 0), pady=(0, 0), sticky="W")
+
+        self.valve_var = customtkinter.BooleanVar()
+        self.valve_var.initialize(self.user_settings['VALVE_ENABLE'])
+        self.valve_enable = customtkinter.CTkCheckBox(master=self.configs, variable=self.valve_var, text="Ventiler")
+        self.valve_enable.grid(row=2, column=0, pady=(20, 10), padx=20, sticky="W")
+
+        self.motor_var = customtkinter.BooleanVar()
+        self.motor_var.initialize(self.user_settings['MOTOR_ENABLE'])
+        self.motor_enable = customtkinter.CTkCheckBox(master=self.configs, variable=self.motor_var, text="Motorer")
+        self.motor_enable.grid(row=2, column=1, pady=(20, 10), padx=20, sticky="W")
+
+        self.di_var = customtkinter.BooleanVar()
+        self.di_var.initialize(self.user_settings['DI_ENABLE'])
+        self.di_enable = customtkinter.CTkCheckBox(master=self.configs, variable=self.di_var, text="Digitala In")
+        self.di_enable.grid(row=2, column=2, pady=(20, 10), padx=20, sticky="W")
+
+        self.do_var = customtkinter.BooleanVar()
+        self.do_var.initialize(self.user_settings['DO_ENABLE'])
+        self.do_enable = customtkinter.CTkCheckBox(master=self.configs, variable=self.do_var, text="Digitala Ut")
+        self.do_enable.grid(row=2, column=3, pady=(20, 10), padx=20, sticky="W")
+
+        self.ai_var = customtkinter.BooleanVar()
+        self.ai_var.initialize(self.user_settings['AI_ENABLE'])
+        self.ai_enable = customtkinter.CTkCheckBox(master=self.configs, variable=self.ai_var, text="Analoga In")
+        self.ai_enable.grid(row=3, column=0, pady=(20, 10), padx=20, sticky="W")
+
+        self.ao_var = customtkinter.BooleanVar()
+        self.ao_var.initialize(self.user_settings['AO_ENABLE'])
+        self.ao_enable = customtkinter.CTkCheckBox(master=self.configs, variable=self.ao_var, text="Analoga Ut")
+        self.ao_enable.grid(row=3, column=1, pady=(20, 10), padx=20, sticky="W")
+
+        self.pid_var = customtkinter.BooleanVar()
+        self.pid_var.initialize(self.user_settings['PID_ENABLE'])
+        self.pid_enable = customtkinter.CTkCheckBox(master=self.configs, variable=self.pid_var, text="PIDar")
+        self.pid_enable.grid(row=3, column=2, pady=(20, 10), padx=20, sticky="W")
+
+        self.sum_var = customtkinter.BooleanVar()
+        self.sum_var.initialize(self.user_settings['SUM_ENABLE'])
+        self.sum_enable = customtkinter.CTkCheckBox(master=self.configs, variable=self.sum_var, text="Sums")
+        self.sum_enable.grid(row=3, column=3, pady=(20, 10), padx=20, sticky="W")
+
+        self.alarm_var = customtkinter.BooleanVar()
+        self.alarm_var.initialize(self.user_settings['ALARM_ENABLE'])
+        self.alarm_enable = customtkinter.CTkCheckBox(master=self.configs, variable=self.alarm_var, text="Alarm")
+        self.alarm_enable.grid(row=4, column=0, pady=(20, 10), padx=20, sticky="W")
+
+        self.asi_var = customtkinter.BooleanVar()
+        self.asi_var.initialize(self.user_settings['ASI_ENABLE'])
+        self.asi_enable = customtkinter.CTkCheckBox(master=self.configs, variable=self.asi_var, text="ASI")
+        self.asi_enable.grid(row=4, column=1, pady=(20, 10), padx=20, sticky="W")
+
+        self.units_var = customtkinter.BooleanVar()
+        self.units_var.initialize(self.user_settings['UNITS_ENABLE'])
+        self.units_enable = customtkinter.CTkCheckBox(master=self.configs, variable=self.units_var, text="Units")
+        self.units_enable.grid(row=4, column=2, pady=(20, 10), padx=20, sticky="W")
+
+        self.Au2_var = customtkinter.BooleanVar()
+        self.Au2_var.initialize(self.user_settings['Au2_ENABLE'])
+        self.Au2_enable = customtkinter.CTkCheckBox(master=self.configs, variable=self.Au2_var, text="Au2")
+        self.Au2_enable.grid(row=4, column=3, pady=(20, 10), padx=20, sticky="W")
 
         # Run script
-        self.run_self = tk.Button(self.master, text="Run script",
-                                  bg=self.button_bg, fg=self.button_fg,
-                                  command=self.run_self, state=tk.DISABLED)
-
-        self.run_self.place(relx=0.03, rely=y, relheight=self.buttonHeight,
-                            relwidth=self.buttonWidth)
-
+        self.runButton = customtkinter.CTkButton(self.configs, text="Generera", command=self.run_self, state=customtkinter.DISABLED)
+        self.runButton.grid(row=10, column=0, padx=20, pady=10)
+    
     def browse_excel(self):
         excelPath = filedialog.askopenfilename(
             filetypes=(("Excel files",
@@ -148,7 +182,7 @@ class GenUI(tk.Frame):
         # Write to user_settings dictionary, to save it for later.
         self.user_settings['excel_path'] = excelPath
         # Update label
-        self.excelLabel.config(text=excelPath)
+        self.excelLabel.configure(text=excelPath)
 
         # Check if all path are valid
         self.check_path_validity()
@@ -158,20 +192,20 @@ class GenUI(tk.Frame):
         # Write to user_settings dictionary, to save it for later.
         self.user_settings['output_path'] = output_path
         # Update label
-        self.outpathLabel.config(text=output_path)
+        self.outpathLabel.configure(text=output_path)
 
     def config_path(self):
         config_path = filedialog.askdirectory()
         # Write to user_settings dictionary, to save it for later.
         self.user_settings['config_path'] = config_path
         # Update label
-        self.cfgpathLabel.config(text=config_path)
+        self.cfgpathLabel.configure(text=config_path)
 
     def check_path_validity(self):
         if os.path.isfile(self.user_settings['excel_path']):
-            self.run_self.configure(state=tk.NORMAL)
+            self.runButton.configure(state=customtkinter.NORMAL)
         else:
-            self.run_self.configure(state=tk.DISABLED)
+            self.runButton.configure(state=customtkinter.DISABLED)
 
     def run_self(self):
         self.check_disable_buttons()
@@ -184,11 +218,24 @@ class GenUI(tk.Frame):
         os.startfile(c2_path)
 
     def create_about_window(self):
-        self.about = tk.Toplevel()
+        self.about = customtkinter.Toplevel()
         self.about.title('About')
-        self.label = tk.Label(self.about, text=self.s.version).pack()
+        self.label = customtkinter.Label(self.about, text=self.s.version).pack()
 
     def get_user_settings(self):
         return self.s.user_settings
 
+    def check_disable_buttons(self):
+        self.user_settings['VALVE_ENABLE'] = self.valve_var.get()
+        self.user_settings['MOTOR_ENABLE'] = self.motor_var.get()
+        self.user_settings['DI_ENABLE'] = self.di_var.get()
+        self.user_settings['DO_ENABLE'] = self.do_var.get()
+        self.user_settings['AI_ENABLE'] = self.ai_var.get()
+        self.user_settings['AO_ENABLE'] = self.ao_var.get()
+        self.user_settings['PID_ENABLE'] = self.pid_var.get()
+        self.user_settings['SUM_ENABLE'] = self.sum_var.get()
+        self.user_settings['ALARM_ENABLE'] = self.alarm_var.get()
+        self.user_settings['ASI_ENABLE'] = self.asi_var.get()
+        self.user_settings['UNITS_ENABLE'] = self.units_var.get()
+        self.user_settings['Au2_ENABLE'] = self.Au2_var.get()
         

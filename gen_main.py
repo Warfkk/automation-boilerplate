@@ -55,60 +55,60 @@ class GenMain:
         self._open_gen_excel()
 
         # Create all dictionaries, if enabled in settings
-        if not self.user_settings['DI_DISABLE']:
+        if self.user_settings['DI_ENABLE']:
             self.di_dict = self._obj_data_to_dict(
                         self.s.DI_SHEETNAME, self.s.DI_START_INDEX, 'di')
             self.dict_list.append(self.di_dict)
 
-        if not self.user_settings['DO_DISABLE']:
+        if self.user_settings['DO_ENABLE']:
             self.do_dict = self._obj_data_to_dict(
                         self.s.DO_SHEETNAME, self.s.DO_START_INDEX, 'do')
             self.dict_list.append(self.do_dict)
 
-        if not self.user_settings['VALVE_DISABLE']:
+        if self.user_settings['VALVE_ENABLE']:
             self.valve_dict = self._obj_data_to_dict(
                 self.s.VALVE_SHEETNAME, self.s.VALVE_START_INDEX, 'valve', config=True)
             self.dict_list.append(self.valve_dict)
 
-        if not self.user_settings['MOTOR_DISABLE']:
+        if self.user_settings['MOTOR_ENABLE']:
             self.motor_dict = self._obj_data_to_dict(
                 self.s.MOTOR_SHEETNAME, self.s.MOTOR_START_INDEX, 'motor', config=True)
             self.dict_list.append(self.motor_dict)
 
-        if not self.user_settings['AI_DISABLE']:
+        if self.user_settings['AI_ENABLE']:
             self.ai_dict = self._obj_data_to_dict(
                 self.s.AI_SHEETNAME, self.s.AI_START_INDEX, 'ai', eng_var=True)
             self.dict_list.append(self.ai_dict)
 
-        if not self.user_settings['AO_DISABLE']:
+        if self.user_settings['AO_ENABLE']:
             self.ao_dict = self._obj_data_to_dict(
                     self.s.AO_SHEETNAME, self.s.AO_START_INDEX, 'ao', eng_var=True)
             self.dict_list.append(self.ao_dict)
 
-        if not self.user_settings['PID_DISABLE']:
+        if self.user_settings['PID_ENABLE']:
             self.pid_dict = self._obj_data_to_dict(
                     self.s.PID_SHEETNAME, self.s.PID_START_INDEX, 'pid', eng_var=True)
             self.dict_list.append(self.pid_dict)
 
-        if not self.user_settings['SUM_DISABLE']:
+        if self.user_settings['SUM_ENABLE']:
             self.sum_dict = self._obj_data_to_dict(
                     self.s.SUM_SHEETNAME, self.s.SUM_START_INDEX, 'sum', eng_var=True, volumeperpulse=True)
             self.dict_list.append(self.sum_dict)
 
-        if not self.user_settings['ALARM_DISABLE']:
+        if self.user_settings['ALARM_ENABLE']:
             self.alarm_dict = self._obj_data_to_dict(
                     self.s.ALARM_SHEETNAME, self.s.ALARM_START_INDEX, 'alarm', generic_alarm=True)
             self.dict_list.append(self.alarm_dict)
 
-        if not self.user_settings['ASI_DISABLE']:
+        if self.user_settings['ASI_ENABLE']:
             self.asi_dict = self._obj_data_to_dict(
                     self.s.ASI_SHEETNAME, self.s.ASI_START_INDEX, 'asi', asi=True)
             self.dict_list.append(self.asi_dict)
         
-        if not self.user_settings['UNITS_DISABLE']:
+        if self.user_settings['UNITS_ENABLE']:
             self.unit_phase_list = self._unit_data_to_list(self.s.UNIT_SHEETNAME)
 
-        if not self.user_settings['Au2_DISABLE']:
+        if self.user_settings['Au2_ENABLE']:
             self.parameters_dict = self._pars_data_to_dict(
                     'Parameters', 6, 'Parameters')
             self.dict_list.append(self.parameters_dict)
@@ -583,78 +583,78 @@ class GenMain:
                 for obj in dict:
                     print(obj)
 
-        if not self.user_settings['UNITS_DISABLE'] and self.s.debug_level > 0:
+        if self.user_settings['UNITS_ENABLE'] and self.s.debug_level > 0:
             for _ in self.unit_phase_list:
                 print(_)
 
         self.get_config_from_config_path()
 
-        if self.user_settings['VALVE_DISABLE']:
+        if not self.user_settings['VALVE_ENABLE']:
             self._print_disabled_in_settings('Valve')
         else:
             Valve(self, self.output_path, self.valve_dict, self.config_path,
                   config_type=self.config_type)
 
-        if self.user_settings['MOTOR_DISABLE']:
+        if not self.user_settings['MOTOR_ENABLE']:
             self._print_disabled_in_settings('Motor')
         else:
             Motor(self, self.output_path, self.motor_dict, self.config_path,
                   config_type=self.config_type)
 
-        if self.user_settings['DI_DISABLE']:
+        if not self.user_settings['DI_ENABLE']:
             self._print_disabled_in_settings('DI')
         else:
             DI(self, self.output_path, self.di_dict, self.config_path,
                 config_type=self.config_type)
 
-        if self.user_settings['DO_DISABLE']:
+        if not self.user_settings['DO_ENABLE']:
             self._print_disabled_in_settings('DO')
         else:
             DO(self, self.output_path, self.do_dict, self.config_path,
                 config_type=self.config_type)
 
-        if self.user_settings['AI_DISABLE']:
+        if not self.user_settings['AI_ENABLE']:
             self._print_disabled_in_settings('AI')
         else:
             AI(self, self.output_path, self.ai_dict, self.config_path,
                 config_type=self.config_type)
 
-        if self.user_settings['AO_DISABLE']:
+        if not self.user_settings['AO_ENABLE']:
             self._print_disabled_in_settings('AO')
         else:
             AO(self, self.output_path, self.ao_dict, self.config_path,
                 config_type=self.config_type)
 
-        if self.user_settings['PID_DISABLE']:
+        if not self.user_settings['PID_ENABLE']:
             self._print_disabled_in_settings('PID')
         else:
             PID(self, self.output_path, self.pid_dict, self.config_path,
                 config_type=self.config_type)
 
-        if self.user_settings['SUM_DISABLE']:
+        if not self.user_settings['SUM_ENABLE']:
             self._print_disabled_in_settings('SUM')
         else:
             SUM(self, self.output_path, self.sum_dict, self.config_path,
                 config_type=self.config_type)
 
-        if self.user_settings['ALARM_DISABLE']:
+        if not self.user_settings['ALARM_ENABLE']:
             self._print_disabled_in_settings('Alarm')
         else:
             Alarm(self, self.output_path, self.alarm_dict, self.config_path,
                 config_type=self.config_type)
 
-        if self.user_settings['ASI_DISABLE']:
+        if not self.user_settings['ASI_ENABLE']:
             self._print_disabled_in_settings('ASi')
         else:
             ASi(self, self.output_path, self.asi_dict, self.config_path, config_type=self.config_type)
 
-        if self.user_settings['UNITS_DISABLE']:
+        if not self.user_settings['UNITS_ENABLE']:
             self._print_disabled_in_settings('Units_Phases')
         else: 
             UnitsPhases(self, self.output_path, self.unit_phase_list, 
                           self.config_path, config_type=self.config_type)
 
-        if self.user_settings['Au2_DISABLE']:
+        if not self.user_settings['Au2_ENABLE']:
             self._print_disabled_in_settings('Au2')
         else:
             Au2ParInstance(self, self.output_path, self.parameters_dict, self.config_path, config_type=self.config_type)

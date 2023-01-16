@@ -151,9 +151,9 @@ class Valve:
             #self._tia_db_multiple_plc()
             #self._tia_symbol()
             #self._tia_code()
-            #self._intouch()
-            #self._sql()
-            if not self.user_settings['Au2_DISABLE']:
+            self._intouch()
+            self._sql()
+            if self.user_settings['Au2_ENABLE']:
                 self._Au2Mate_DB()
                 self._Au2Mate_Code()
                 self._Au2Mate_Platform()
