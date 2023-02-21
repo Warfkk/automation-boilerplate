@@ -108,3 +108,10 @@ NETWORK
 TITLE =@ID - @CMT
    "VLV".@ID.AutoDr := @ID_AKT
 </Au2Mate_Activation>
+
+<THIM>
+      CALL  "EUWA_Valve"
+         Valve_In  :="EUWA RECIVE"."@ID-ValveState"
+         Valve_Out :="DB VALVE".@ID
+
+</THIM>
