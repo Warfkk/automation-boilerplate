@@ -19,9 +19,12 @@ class Alarm:
         self.cf = os.path.join(self.cp, self.type + '.txt')  # base config file
 
         self.output_path = output_path
-        self.tia_path = os.path.join(self.output_path, self.masterfolder, self.s.TIA_DIR)
-        self.it_path = os.path.join(self.output_path, self.masterfolder, self.s.INTOUCH_DIR)
-        self.sql_path = os.path.join(self.output_path, self.masterfolder, self.s.SQL_DIR)
+        self.tia_path = os.path.join(
+            self.output_path, self.masterfolder, self.s.TIA_DIR)
+        self.it_path = os.path.join(
+            self.output_path, self.masterfolder, self.s.INTOUCH_DIR)
+        self.sql_path = os.path.join(
+            self.output_path, self.masterfolder, self.s.SQL_DIR)
 
         self.ol = obj_list
 
@@ -33,8 +36,8 @@ class Alarm:
         if self.ol:
             self.generate()
         else:
-            print(f'\nWARNING: {self.type.upper()} not generated, no items found in TD')
-
+            print(
+                f'\nWARNING: {self.type.upper()} not generated, no items found in TD')
 
     def _tia_db(self):
         data = self.gen.single(self.cf, self.rl, 'TIA_DB_Header')
@@ -55,7 +58,8 @@ class Alarm:
     def _tia_db_multiple_plc(self):
         for plc in self.plc_set:
             data = self.gen.single(self.cf, self.rl, 'TIA_DB_Header')
-            data += self.gen.multiple(self.ol, self.cf, self.rl, 'TIA_DB_Var', plc_name=plc)
+            data += self.gen.multiple(self.ol, self.cf,
+                                      self.rl, 'TIA_DB_Var', plc_name=plc)
             data += self.gen.single(self.cf, self.rl, 'TIA_DB_Footer')
 
             filename = plc + '_' + self.type + '_db.db'

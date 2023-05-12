@@ -31,3 +31,11 @@ BEGIN
 
 END_DATA_BLOCK
 </TIA_DB_Footer>
+
+<THIMP>
+//@ID
+      A     "EUWA RECIVE".@ID
+      =     "Alarm DB".@ID."ALARM IN"
+
+</THIMP>
+
