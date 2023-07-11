@@ -1,3 +1,8 @@
+MCTemplate System Platform
+<MC_System_Platform>
+
+</MC_System_Platform>
+
 InTouch Configuration
 
 <Intouch_Header>

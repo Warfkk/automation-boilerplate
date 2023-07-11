@@ -1,3 +1,12 @@
+MCTemplate System Platform
+<MC_System_Platform>
+:TEMPLATE=$MC_AI
+:Tagname,Area,ShortDesc,aaSetup_PLC,EuValue.TrendHi,EuValue.TrendLo,EuValue.EngUnits
+@ID,@AlarmGroup_CM,@CMT,@PLC,@ENGMAX,@ENGMIN,@ENGUNIT,
+
+</MC_System_Platform>
+
+
 InTouch Configuration
 
 <Intouch_Header>

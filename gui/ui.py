@@ -94,23 +94,45 @@ class GenUI(customtkinter.CTk):
         )
         self.excelLabel.grid(row=1, column=1, padx=20, pady=10, sticky="W")
 
-        # Output button
-        self.outpathButton = customtkinter.CTkButton(
-            self.files, command=self.output_path, text="Välj utmatnings mapp"
+        # General settings header
+        self.headergensettings = customtkinter.CTkFrame(
+            self, corner_radius=0, fg_color="transparent"
         )
-        self.outpathButton.grid(row=2, column=0, padx=20, pady=10, sticky="W")
+        self.headergensettings.grid(
+            row=3, column=0, padx=(20, 0), pady=(20, 0), sticky="W"
+        )
 
-        # Output path label
-        self.outpathLabel = customtkinter.CTkLabel(
-            self.files, text=(self.user_settings["output_path"])
+        self.gensettingslabel = customtkinter.CTkLabel(
+            self.headergensettings,
+            text="Generella inställningar",
+            font=customtkinter.CTkFont(size=20, weight="bold"),
+            anchor=customtkinter.W,
         )
-        self.outpathLabel.grid(row=2, column=1, padx=20, pady=10, sticky="W")
+        self.gensettingslabel.grid(row=1, column=0, padx=10, pady=10)
+
+        # create generall serrings
+        self.gensettings = customtkinter.CTkFrame(
+            self, corner_radius=0, fg_color="transparent"
+        )
+        self.gensettings.grid(row=4, column=0, padx=(20, 0), pady=(0, 0), sticky="W")
+
+        self.row_placement = 1
+        self.seperateFolders_var = customtkinter.BooleanVar()
+        self.seperateFolders_var.initialize(self.user_settings["seperateFolders"])
+        self.seperateFolders = customtkinter.CTkCheckBox(
+            master=self.gensettings,
+            variable=self.seperateFolders_var,
+            text="Generera filer i olika PLC mappar",
+        )
+        self.seperateFolders.grid(
+            row=self.row_placement, column=0, pady=(20, 10), padx=20, sticky="W"
+        )
 
         # create header configs
         self.headerconfigs = customtkinter.CTkFrame(
             self, corner_radius=0, fg_color="transparent"
         )
-        self.headerconfigs.grid(row=3, column=0, padx=(20, 0), pady=(20, 0), sticky="W")
+        self.headerconfigs.grid(row=5, column=0, padx=(20, 0), pady=(20, 0), sticky="W")
 
         self.configsheaderlabel = customtkinter.CTkLabel(
             self.headerconfigs,
@@ -124,91 +146,118 @@ class GenUI(customtkinter.CTk):
         self.configs = customtkinter.CTkFrame(
             self, corner_radius=0, fg_color="transparent"
         )
-        self.configs.grid(row=4, column=0, padx=(20, 0), pady=(0, 0), sticky="W")
+        self.configs.grid(row=6, column=0, padx=(20, 0), pady=(0, 0), sticky="W")
 
+        self.row_placement = 2
         self.valve_var = customtkinter.BooleanVar()
         self.valve_var.initialize(self.user_settings["VALVE_ENABLE"])
         self.valve_enable = customtkinter.CTkCheckBox(
             master=self.configs, variable=self.valve_var, text="Ventiler"
         )
-        self.valve_enable.grid(row=2, column=0, pady=(20, 10), padx=20, sticky="W")
+        self.valve_enable.grid(
+            row=self.row_placement, column=0, pady=(20, 10), padx=20, sticky="W"
+        )
 
         self.motor_var = customtkinter.BooleanVar()
         self.motor_var.initialize(self.user_settings["MOTOR_ENABLE"])
         self.motor_enable = customtkinter.CTkCheckBox(
             master=self.configs, variable=self.motor_var, text="Motorer"
         )
-        self.motor_enable.grid(row=2, column=1, pady=(20, 10), padx=20, sticky="W")
+        self.motor_enable.grid(
+            row=self.row_placement, column=1, pady=(20, 10), padx=20, sticky="W"
+        )
 
         self.di_var = customtkinter.BooleanVar()
         self.di_var.initialize(self.user_settings["DI_ENABLE"])
         self.di_enable = customtkinter.CTkCheckBox(
             master=self.configs, variable=self.di_var, text="Digitala Ingångar"
         )
-        self.di_enable.grid(row=2, column=2, pady=(20, 10), padx=20, sticky="W")
+        self.di_enable.grid(
+            row=self.row_placement, column=2, pady=(20, 10), padx=20, sticky="W"
+        )
 
         self.do_var = customtkinter.BooleanVar()
         self.do_var.initialize(self.user_settings["DO_ENABLE"])
         self.do_enable = customtkinter.CTkCheckBox(
             master=self.configs, variable=self.do_var, text="Digitala Utgånngar"
         )
-        self.do_enable.grid(row=2, column=3, pady=(20, 10), padx=20, sticky="W")
+        self.do_enable.grid(
+            row=self.row_placement, column=3, pady=(20, 10), padx=20, sticky="W"
+        )
 
+        self.row_placement = 3
         self.ai_var = customtkinter.BooleanVar()
         self.ai_var.initialize(self.user_settings["AI_ENABLE"])
         self.ai_enable = customtkinter.CTkCheckBox(
             master=self.configs, variable=self.ai_var, text="Analoga Ingångar"
         )
-        self.ai_enable.grid(row=3, column=0, pady=(20, 10), padx=20, sticky="W")
+        self.ai_enable.grid(
+            row=self.row_placement, column=0, pady=(20, 10), padx=20, sticky="W"
+        )
 
         self.ao_var = customtkinter.BooleanVar()
         self.ao_var.initialize(self.user_settings["AO_ENABLE"])
         self.ao_enable = customtkinter.CTkCheckBox(
             master=self.configs, variable=self.ao_var, text="Analoga Utgångar"
         )
-        self.ao_enable.grid(row=3, column=1, pady=(20, 10), padx=20, sticky="W")
+        self.ao_enable.grid(
+            row=self.row_placement, column=1, pady=(20, 10), padx=20, sticky="W"
+        )
 
         self.pid_var = customtkinter.BooleanVar()
         self.pid_var.initialize(self.user_settings["PID_ENABLE"])
         self.pid_enable = customtkinter.CTkCheckBox(
             master=self.configs, variable=self.pid_var, text="Regulatorer (PID)"
         )
-        self.pid_enable.grid(row=3, column=2, pady=(20, 10), padx=20, sticky="W")
+        self.pid_enable.grid(
+            row=self.row_placement, column=2, pady=(20, 10), padx=20, sticky="W"
+        )
 
         self.sum_var = customtkinter.BooleanVar()
         self.sum_var.initialize(self.user_settings["SUM_ENABLE"])
         self.sum_enable = customtkinter.CTkCheckBox(
             master=self.configs, variable=self.sum_var, text="Pulsräcknare (SUM)"
         )
-        self.sum_enable.grid(row=3, column=3, pady=(20, 10), padx=20, sticky="W")
+        self.sum_enable.grid(
+            row=self.row_placement, column=3, pady=(20, 10), padx=20, sticky="W"
+        )
 
+        self.row_placement = 4
         self.alarm_var = customtkinter.BooleanVar()
         self.alarm_var.initialize(self.user_settings["ALARM_ENABLE"])
         self.alarm_enable = customtkinter.CTkCheckBox(
             master=self.configs, variable=self.alarm_var, text="Alarm"
         )
-        self.alarm_enable.grid(row=4, column=0, pady=(20, 10), padx=20, sticky="W")
+        self.alarm_enable.grid(
+            row=self.row_placement, column=0, pady=(20, 10), padx=20, sticky="W"
+        )
 
         self.asi_var = customtkinter.BooleanVar()
         self.asi_var.initialize(self.user_settings["ASI_ENABLE"])
         self.asi_enable = customtkinter.CTkCheckBox(
             master=self.configs, variable=self.asi_var, text="ASI Master"
         )
-        self.asi_enable.grid(row=4, column=1, pady=(20, 10), padx=20, sticky="W")
+        self.asi_enable.grid(
+            row=self.row_placement, column=1, pady=(20, 10), padx=20, sticky="W"
+        )
 
         self.units_var = customtkinter.BooleanVar()
         self.units_var.initialize(self.user_settings["UNITS_ENABLE"])
         self.units_enable = customtkinter.CTkCheckBox(
             master=self.configs, variable=self.units_var, text="Enheter"
         )
-        self.units_enable.grid(row=4, column=2, pady=(20, 10), padx=20, sticky="W")
+        self.units_enable.grid(
+            row=self.row_placement, column=2, pady=(20, 10), padx=20, sticky="W"
+        )
 
         self.Au2_var = customtkinter.BooleanVar()
         self.Au2_var.initialize(self.user_settings["Au2_ENABLE"])
         self.Au2_enable = customtkinter.CTkCheckBox(
             master=self.configs, variable=self.Au2_var, text="Au2"
         )
-        self.Au2_enable.grid(row=4, column=3, pady=(20, 10), padx=20, sticky="W")
+        self.Au2_enable.grid(
+            row=self.row_placement, column=3, pady=(20, 10), padx=20, sticky="W"
+        )
 
         # Run script
         self.runButton = customtkinter.CTkButton(
@@ -283,3 +332,4 @@ class GenUI(customtkinter.CTk):
         self.user_settings["ASI_ENABLE"] = self.asi_var.get()
         self.user_settings["UNITS_ENABLE"] = self.units_var.get()
         self.user_settings["Au2_ENABLE"] = self.Au2_var.get()
+        self.user_settings["seperateFolders"] = self.seperateFolders_var.get()

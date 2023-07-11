@@ -1,3 +1,8 @@
+MCTemplate System Platform
+<MC_System_Platform>
+
+</MC_System_Platform>
+
 <Intouch_Header>
 :mode=update
 </Intouch_Header>

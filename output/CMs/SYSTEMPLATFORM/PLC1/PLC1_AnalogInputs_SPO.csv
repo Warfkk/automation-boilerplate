@@ -1,0 +1,92 @@
+:TEMPLATE=$MC_AI
+:Tagname,Area,ShortDesc,aaSetup_PLC,EuValue.TrendHi,EuValue.TrendLo,EuValue.EngUnits
+TL0T01TT01,TankToTank_CM,Tank temperature,PLC1,160,0,°C,
+
+:TEMPLATE=$MC_AI
+:Tagname,Area,ShortDesc,aaSetup_PLC,EuValue.TrendHi,EuValue.TrendLo,EuValue.EngUnits
+TL0T01PT01,TankToTank_CM,Tank bottom pressure,PLC1,10,0,bar,
+
+:TEMPLATE=$MC_AI
+:Tagname,Area,ShortDesc,aaSetup_PLC,EuValue.TrendHi,EuValue.TrendLo,EuValue.EngUnits
+TL0T02TT01,TankToTank_CM,Tank temperature,PLC1,160,0,°C,
+
+:TEMPLATE=$MC_AI
+:Tagname,Area,ShortDesc,aaSetup_PLC,EuValue.TrendHi,EuValue.TrendLo,EuValue.EngUnits
+TL0T02PT01,TankToTank_CM,Tank bottom pressure,PLC1,10,0,bar,
+
+:TEMPLATE=$MC_AI
+:Tagname,Area,ShortDesc,aaSetup_PLC,EuValue.TrendHi,EuValue.TrendLo,EuValue.EngUnits
+A50T01TT01,TankToTank_CM,Tank temperature,PLC1,160,0,°C,
+
+:TEMPLATE=$MC_AI
+:Tagname,Area,ShortDesc,aaSetup_PLC,EuValue.TrendHi,EuValue.TrendLo,EuValue.EngUnits
+A50T01PT01,TankToTank_CM,Tank bottom pressure,PLC1,10,0,bar,
+
+:TEMPLATE=$MC_AI
+:Tagname,Area,ShortDesc,aaSetup_PLC,EuValue.TrendHi,EuValue.TrendLo,EuValue.EngUnits
+A50T02TT01,TankToTank_CM,Tank temperature,PLC1,160,0,°C,
+
+:TEMPLATE=$MC_AI
+:Tagname,Area,ShortDesc,aaSetup_PLC,EuValue.TrendHi,EuValue.TrendLo,EuValue.EngUnits
+A50T02PT01,TankToTank_CM,Tank bottom pressure,PLC1,10,0,bar,
+
+:TEMPLATE=$MC_AI
+:Tagname,Area,ShortDesc,aaSetup_PLC,EuValue.TrendHi,EuValue.TrendLo,EuValue.EngUnits
+TL0L01FT01,TankToTank_CM,Transfer line flow,PLC1,50000,0,l/h,
+
+:TEMPLATE=$MC_AI
+:Tagname,Area,ShortDesc,aaSetup_PLC,EuValue.TrendHi,EuValue.TrendLo,EuValue.EngUnits
+TL0L01PT01,TankToTank_CM,Transfer line pressure,PLC1,10,0,bar,
+
+:TEMPLATE=$MC_AI
+:Tagname,Area,ShortDesc,aaSetup_PLC,EuValue.TrendHi,EuValue.TrendLo,EuValue.EngUnits
+TL0T01LT01,TankToTank_CM,Tank Level,PLC1,100,0,%,
+
+:TEMPLATE=$MC_AI
+:Tagname,Area,ShortDesc,aaSetup_PLC,EuValue.TrendHi,EuValue.TrendLo,EuValue.EngUnits
+TL0T02LT01,TankToTank_CM,Tank Level,PLC1,100,0,%,
+
+:TEMPLATE=$MC_AI
+:Tagname,Area,ShortDesc,aaSetup_PLC,EuValue.TrendHi,EuValue.TrendLo,EuValue.EngUnits
+A50T01LT01,TankToTank_CM,Tank Level,PLC1,100,0,%,
+
+:TEMPLATE=$MC_AI
+:Tagname,Area,ShortDesc,aaSetup_PLC,EuValue.TrendHi,EuValue.TrendLo,EuValue.EngUnits
+A50T02LT01,TankToTank_CM,Tank Level,PLC1,100,0,%,
+
+:TEMPLATE=$MC_AI
+:Tagname,Area,ShortDesc,aaSetup_PLC,EuValue.TrendHi,EuValue.TrendLo,EuValue.EngUnits
+A30T01LT01,TankToTank_CM,Tank Level,PLC1,100,0,%,
+
+:TEMPLATE=$MC_AI
+:Tagname,Area,ShortDesc,aaSetup_PLC,EuValue.TrendHi,EuValue.TrendLo,EuValue.EngUnits
+A30T01TT01,TankToTank_CM,Tank temperature,PLC1,160,0,°C,
+
+:TEMPLATE=$MC_AI
+:Tagname,Area,ShortDesc,aaSetup_PLC,EuValue.TrendHi,EuValue.TrendLo,EuValue.EngUnits
+A30T01PT01,TankToTank_CM,Tank bottom pressure,PLC1,10,0,bar,
+
+:TEMPLATE=$MC_AI
+:Tagname,Area,ShortDesc,aaSetup_PLC,EuValue.TrendHi,EuValue.TrendLo,EuValue.EngUnits
+TL0L02FT01,TankToTank_CM,Transfer line flow,PLC1,50000,0,l/h,
+
+:TEMPLATE=$MC_AI
+:Tagname,Area,ShortDesc,aaSetup_PLC,EuValue.TrendHi,EuValue.TrendLo,EuValue.EngUnits
+TL0L02PT01,TankToTank_CM,Transfer line pressure,PLC1,10,0,bar,
+
+:TEMPLATE=$MC_AI
+:Tagname,Area,ShortDesc,aaSetup_PLC,EuValue.TrendHi,EuValue.TrendLo,EuValue.EngUnits
+A30L01FT01,TankToTank_CM,Transfer line flow,PLC1,50000,0,l/h,
+
+:TEMPLATE=$MC_AI
+:Tagname,Area,ShortDesc,aaSetup_PLC,EuValue.TrendHi,EuValue.TrendLo,EuValue.EngUnits
+A30L01PT01,TankToTank_CM,Transfer line pressure,PLC1,10,0,bar,
+
+:TEMPLATE=$MC_AI
+:Tagname,Area,ShortDesc,aaSetup_PLC,EuValue.TrendHi,EuValue.TrendLo,EuValue.EngUnits
+A50L01FT01,TankToTank_CM,Transfer line flow,PLC1,50000,0,l/h,
+
+:TEMPLATE=$MC_AI
+:Tagname,Area,ShortDesc,aaSetup_PLC,EuValue.TrendHi,EuValue.TrendLo,EuValue.EngUnits
+A50L01PT01,TankToTank_CM,Transfer line pressure,PLC1,10,0,bar,
+

@@ -40,13 +40,15 @@ class AI:
         if self.ol:
             self.generate()
         else:
-            print(f"\nWARNING: {self.type.upper()} not generated, no items found in TD")
+            print(
+                f"\nWARNING: {self.type.upper()} not generated, no items found in TD")
 
     def _tia_db(self):
         data = self.gen.single(self.cf, self.rl, "TIA_DB_Header")
         data += self.gen.multiple(self.ol, self.cf, self.rl, "TIA_DB_Var")
         data += self.gen.single(self.cf, self.rl, "TIA_DB_Begin")
-        data += self.gen.multiple(self.ol, self.cf, self.rl, "TIA_DB_Parameters")
+        data += self.gen.multiple(self.ol, self.cf,
+                                  self.rl, "TIA_DB_Parameters")
         data += self.gen.single(self.cf, self.rl, "TIA_DB_Footer")
 
         filename = self.type + "_db.db"
@@ -147,7 +149,8 @@ class AI:
 
     def _Au2Mate_Platform(self):
         data = self.gen.single(self.cf, self.rl, "Au2Mate_Platform_Header")
-        data += self.gen.multiple(self.ol, self.cf, self.rl, "Au2Mate_Platform_Data")
+        data += self.gen.multiple(self.ol, self.cf,
+                                  self.rl, "Au2Mate_Platform_Data")
 
         filename = self.type + "_platform.csv"
         path = os.path.join(self.tia_path, filename)
@@ -155,6 +158,19 @@ class AI:
             os.makedirs(self.tia_path)
         with open(path, "w", encoding="cp1252") as f:
             f.write(data)
+
+    def _systemPlatform(self):
+        for plc in self.plc_set:
+            data = self.gen.multiple(
+                self.ol, self.cf, self.rl, "MC_System_Platform", plc_name=plc)
+
+            filename = plc + "_" + self.type + "_db.db"
+            pathwithplc = path = os.path.join(self.tia_path, plc)
+            path = os.path.join(pathwithplc, filename)
+            if not os.path.exists(pathwithplc):
+                os.makedirs(pathwithplc)
+            with open(path, "w", encoding="cp1252") as f:
+                f.write(data)
 
     def generate(self):
         if self.ol:
