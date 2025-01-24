@@ -250,15 +250,6 @@ class GenUI(customtkinter.CTk):
             row=self.row_placement, column=2, pady=(20, 10), padx=20, sticky="W"
         )
 
-        self.Au2_var = customtkinter.BooleanVar()
-        self.Au2_var.initialize(self.user_settings["Au2_ENABLE"])
-        self.Au2_enable = customtkinter.CTkCheckBox(
-            master=self.configs, variable=self.Au2_var, text="Au2"
-        )
-        self.Au2_enable.grid(
-            row=self.row_placement, column=3, pady=(20, 10), padx=20, sticky="W"
-        )
-
         # Run script
         self.runButton = customtkinter.CTkButton(
             self.configs,
@@ -331,5 +322,4 @@ class GenUI(customtkinter.CTk):
         self.user_settings["ALARM_ENABLE"] = self.alarm_var.get()
         self.user_settings["ASI_ENABLE"] = self.asi_var.get()
         self.user_settings["UNITS_ENABLE"] = self.units_var.get()
-        self.user_settings["Au2_ENABLE"] = self.Au2_var.get()
         self.user_settings["seperateFolders"] = self.seperateFolders_var.get()

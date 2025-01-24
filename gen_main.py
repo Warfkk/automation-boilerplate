@@ -6,6 +6,7 @@ from os.path import isfile, join
 import json
 import openpyxl as xl
 from settings import Settings
+import shutil
 
 # User Libs
 from obj_lib.General import General
@@ -13,7 +14,6 @@ from obj_lib.alarm import Alarm
 from obj_lib.asi import ASi
 from unit_lib.unit_types import UnitTypes
 from unit_lib.units_phases import UnitsPhases
-from obj_lib.Au2ParInstance import Au2ParInstance
 
 
 class GenMain:
@@ -120,12 +120,6 @@ class GenMain:
 
         if self.user_settings["UNITS_ENABLE"]:
             self.unit_phase_list = self._unit_data_to_list(self.s.UNIT_SHEETNAME)
-
-        if self.user_settings["Au2_ENABLE"]:
-            self.parameters_dict = self._pars_data_to_dict(
-                "Parameters", 6, "Parameters"
-            )
-            self.dict_list.append(self.parameters_dict)
 
     def _obj_data_to_dict(
         self,
@@ -389,7 +383,6 @@ class GenMain:
             print(msg)
             sys.exit()
 
-            column_db_start_addr = None
             # Loop header and set the corresponding variables to
             # the integer number
         for i in range(1, 10):
@@ -408,8 +401,6 @@ class GenMain:
                 column_plc = i
             elif self.s.COL_ALARM_GROUP_NAME == cellval:
                 column_hmi_group = i
-            elif self.s.COL_DB_START_ADDR_NAME == cellval:
-                column_db_start_addr = i
 
         if self.s.debug_level > 0:
             print("UNIT UNITSHEET:", sheet)
@@ -417,17 +408,11 @@ class GenMain:
             print("\t", "UNIT column_type:", column_type)
             print("\t", "UNIT column_plc:", column_plc)
             print("\t", "UNIT column_hmi_group:", column_hmi_group)
-            print("\t", "UNIT column_db_start_addr:", column_db_start_addr)
 
         unit_phase_list = []
         #  loop over the objects in sheet
         mem_unit = None
         mem_plc = None
-
-        if column_db_start_addr is not None:
-            db_addr_exists = True
-        else:
-            db_addr_exists = False
 
         for i in range(self.s.UNIT_ROW, ws.max_row + 1):
             #  Create cell references
@@ -435,8 +420,6 @@ class GenMain:
             cell_type = ws.cell(row=i, column=column_type)
             cell_plc = ws.cell(row=i, column=column_plc)
             cell_hmi_group = ws.cell(row=i, column=column_hmi_group)
-            if db_addr_exists:
-                cell_db_start_addr = ws.cell(row=i, column=column_db_start_addr)
 
             # Break if we get a blank ID cell
             if cell_id.value is None:
@@ -479,12 +462,6 @@ class GenMain:
                 "plc": mem_plc,
                 "hmi_group": mem_hmi_group,
             }
-
-            # Insert DB start addr if property exists
-            if db_addr_exists:
-                db, db_offset = self._parse_s7_db_addr(cell_db_start_addr.value)
-                obj["db_nr_str"] = db
-                obj["db_offset"] = db_offset
 
             unit_phase_list.append(obj)
 
@@ -598,6 +575,10 @@ class GenMain:
     def generate(self):
         print("Version", self.s.version)
 
+        # Remove output folder if it exists
+        if os.path.exists(self.output_path):
+            shutil.rmtree(self.output_path)
+
         self.copy_excel_data_to_dictionaries()
 
         if self.s.debug_level > 0:
@@ -687,17 +668,6 @@ class GenMain:
                 self,
                 self.output_path,
                 self.unit_phase_list,
-                self.config_path,
-                config_type=self.config_type,
-            )
-
-        if not self.user_settings["Au2_ENABLE"]:
-            self._print_disabled_in_settings("Au2")
-        else:
-            Au2ParInstance(
-                self,
-                self.output_path,
-                self.parameters_dict,
                 self.config_path,
                 config_type=self.config_type,
             )
